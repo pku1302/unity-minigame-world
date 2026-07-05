@@ -1,11 +1,14 @@
 using UnityEngine;
 using MiniGameWorld.Core;
 using UnityEngine.InputSystem;
+using MiniGameWorld.UI;
 
 namespace MiniGameWorld
 {
     public class GameFlowManager : MonoBehaviour
     {
+        [SerializeField]
+        private UIPresenter m_UIPresenter;
         StateMachine m_StateMachine = new StateMachine();
 
         IState m_TitleState;
@@ -26,6 +29,24 @@ namespace MiniGameWorld
             SetStates();
             AddLinks();
             RunStateMachine();
+
+            m_UIPresenter.StartRequested += OnStartRequested;
+            m_UIPresenter.SettingsRequested += OnSettingsRequested;
+            m_UIPresenter.QuitRequested += OnQuitRequested;
+        }
+        private void OnStartRequested()
+        {
+            Debug.Log("Game Start Requested");
+        }
+
+        private void OnSettingsRequested()
+        {
+            Debug.Log("Settings Requested");
+        }
+
+        private void OnQuitRequested()
+        {
+            Debug.Log("Quit Requested");
         }
 
         private void SetStates()
@@ -45,6 +66,16 @@ namespace MiniGameWorld
         private void RunStateMachine()
         {
             m_StateMachine.Run(m_TitleState);
+        }
+
+        private void OnDestroy()
+        {
+            if (m_UIPresenter == null)
+                return;
+
+            m_UIPresenter.StartRequested -= OnStartRequested;
+            m_UIPresenter.SettingsRequested -= OnSettingsRequested;
+            m_UIPresenter.QuitRequested -= OnQuitRequested;
         }
     }
 }

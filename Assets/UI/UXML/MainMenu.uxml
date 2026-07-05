@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement name="main-menu" style="flex-grow: 1;">
+        <ui:Label text="Mini Game World" name="" style="-unity-text-align: upper-center;"/>
+        <ui:Button text="Start" name="start-button"/>
+        <ui:Button text="Button" name="settings-button"/>
+        <ui:Button text="Quit" name="quit-button"/>
+    </ui:VisualElement>
+</ui:UXML>
