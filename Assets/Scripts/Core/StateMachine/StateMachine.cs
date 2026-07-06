@@ -7,22 +7,27 @@ namespace MiniGameWorld.Core
     public class StateMachine
     {
         public IState CurrentState { get; private set; }
+        public event Action<IState, IState> StateChanged;
 
         Coroutine m_CurrentPlayCoroutine;
 
         bool m_PlayLock;
 
-        public virtual void SetCurrentState(IState state)
+        public virtual void SetCurrentState(IState nextState)
         {
-            if (state == null)
-                throw new ArgumentNullException(nameof(state));
+            if (nextState == null)
+                throw new ArgumentNullException(nameof(nextState));
+
+            var previous = CurrentState;
 
             if (CurrentState != null && m_CurrentPlayCoroutine != null)
             {
                 Skip();
             }
 
-            CurrentState = state;
+            CurrentState = nextState;
+
+            StateChanged?.Invoke(previous, nextState);
 
             Utilities.Coroutines.StartCoroutine(Play());
         }

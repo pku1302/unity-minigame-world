@@ -1,25 +1,25 @@
-using UnityEngine;
-using System.Collections;
 using MiniGameWorld.UI;
+using System.Collections;
+using UnityEngine;
 
 namespace MiniGameWorld.Core
 {
-    public class MainMenuState : AbstractState
+    public class GameSelectState : AbstractState
     {
-        private readonly UIPresenter m_UI; // 추후 리팩터링 고려
+        private readonly UIPresenter m_UIPresenter; // 추후 리팩터링 고려
 
-        public MainMenuState(UIPresenter uiPresenter)
+        public GameSelectState(UIPresenter uiPresenter)
         {
-            m_UI = uiPresenter;
+            m_UIPresenter = uiPresenter;
         }
 
         public override void Enter()
         {
             base.Enter();
 
-            m_UI.ShowView(m_UI.MainMenuView);
+            m_UIPresenter.ShowView(m_UIPresenter.GameSelectView);
         }
-        
+
         public override IEnumerator Execute()
         {
             while (true)
@@ -31,3 +31,4 @@ namespace MiniGameWorld.Core
         }
     }
 }
+

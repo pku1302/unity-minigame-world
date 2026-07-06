@@ -4,22 +4,21 @@ using MiniGameWorld.UI;
 
 namespace MiniGameWorld.Core
 {
-    public class MainMenuState : AbstractState
+    public class ResultState : AbstractState
     {
-        private readonly UIPresenter m_UI; // 추후 리팩터링 고려
-
-        public MainMenuState(UIPresenter uiPresenter)
+        private readonly UIPresenter m_UI;
+        public ResultState(UIPresenter uIPresenter)
         {
-            m_UI = uiPresenter;
+            m_UI = uIPresenter;
         }
 
         public override void Enter()
         {
             base.Enter();
 
-            m_UI.ShowView(m_UI.MainMenuView);
+            m_UI.ShowView(m_UI.ResultView);
         }
-        
+
         public override IEnumerator Execute()
         {
             while (true)
@@ -28,6 +27,7 @@ namespace MiniGameWorld.Core
 
         public override void Exit()
         {
+            Debug.Log("Result Exit");
         }
     }
 }

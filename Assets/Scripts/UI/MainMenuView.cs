@@ -28,22 +28,22 @@ namespace MiniGameWorld.UI
 
         private void RegisterCallbacks()
         {
-            m_EventRegistry.RegisterCallback<ClickEvent>(m_StartButton, OnStart);
-            m_EventRegistry.RegisterCallback<ClickEvent>(m_SettingsButton, OnSettings);
-            m_EventRegistry.RegisterCallback<ClickEvent>(m_QuitButton, OnQuit);
+            m_EventRegistry.RegisterCallback<ClickEvent>(m_StartButton, OnStartClick);
+            m_EventRegistry.RegisterCallback<ClickEvent>(m_SettingsButton, OnSettingsClick);
+            m_EventRegistry.RegisterCallback<ClickEvent>(m_QuitButton, OnQuitClick);
         }
 
-        private void OnStart()
+        private void OnStartClick()
         {
             StartClicked?.Invoke();
         }
 
-        private void OnSettings()
+        private void OnSettingsClick()
         {
             SettingsClicked?.Invoke();
         }
 
-        private void OnQuit()
+        private void OnQuitClick()
         {
             QuitClicked?.Invoke();
         }

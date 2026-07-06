@@ -9,9 +9,6 @@ namespace MiniGameWorld.UI
 {
     public abstract class UIView
     {
-        public const string k_VisibleClass = "screen-visible";
-        public const string k_HiddenClass = "screen-hidden";
-
         protected bool m_HideOnAwake = true;
         protected bool m_IsTransparent;
 
@@ -42,7 +39,6 @@ namespace MiniGameWorld.UI
             }
 
             m_EventRegistry = new EventRegistry();
-            m_EventRegistry.RegisterCallback<TransitionEndEvent>(m_RootElement, ParentElement_TransitionEnd);
         }
 
         public virtual void Disable()
@@ -50,51 +46,16 @@ namespace MiniGameWorld.UI
             m_EventRegistry.Dispose();
         }
 
-        private void ParentElement_TransitionEnd(TransitionEndEvent evt)
-        {
-            if (evt.target == m_RootElement && m_RootElement.ClassListContains(k_HiddenClass))
-            {
-                HideImmediately();
-            }
-        }
         public virtual void Show()
         {
-            Coroutines.StopCoroutine(ref m_DisplayRoutine);
-            m_DisplayRoutine = Coroutines.StartCoroutine(ShowWithDelay(m_TransitionDelay));
-        }
-        private IEnumerator ShowWithDelay(float delayInSecs)
-        {
-            yield return new WaitForSeconds(delayInSecs);
-
             m_RootElement.style.display = DisplayStyle.Flex;
-
-            if (m_UseTransition)
-            {
-                m_RootElement.AddToClassList(k_VisibleClass);
-                m_RootElement.BringToFront();
-                m_RootElement.RemoveFromClassList(k_HiddenClass);
-            }
         }
+
         public virtual void Hide(float delay = 0f)
         {
-            Coroutines.StopCoroutine(ref m_DisplayRoutine);
-            m_DisplayRoutine = Coroutines.StartCoroutine(HideWithDelay(delay));
+            m_RootElement.style.display = DisplayStyle.None;
         }
-
-        private IEnumerator HideWithDelay(float delayInSecs)
-        {
-            yield return new WaitForSeconds(delayInSecs);
-
-            if (m_UseTransition)
-            {
-                m_RootElement.AddToClassList(k_HiddenClass);
-                m_RootElement.RemoveFromClassList(k_VisibleClass);
-            }
-            else
-            {
-                HideImmediately();
-            }
-        }
+ 
         public void HideImmediately()
         {
             m_RootElement.style.display = DisplayStyle.None;
