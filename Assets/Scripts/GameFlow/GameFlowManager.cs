@@ -1,5 +1,6 @@
 using UnityEngine;
 using MiniGameWorld.Core;
+using MiniGameWorld.Game;
 using UnityEngine.InputSystem;
 using MiniGameWorld.UI;
 
@@ -9,6 +10,8 @@ namespace MiniGameWorld
     {
         [SerializeField]
         UIPresenter m_UIPresenter;
+        [SerializeField]
+        private CollectFlowerGame m_CollectFlowerGame;
         StateMachine m_StateMachine = new StateMachine();
 
         IState m_TitleState;
@@ -88,9 +91,11 @@ namespace MiniGameWorld
             m_TitleState = new TitleState { Name = "Title" };
             m_MainMenuState = new MainMenuState (m_UIPresenter){ Name = "MainMenu" };
             m_GameSelectState = new GameSelectState (m_UIPresenter) { Name = "GameSelect" };
-            m_GameState = new GameState (m_UIPresenter) { Name = "Game" };
             m_ResultState = new ResultState (m_UIPresenter) { Name = "Result" };
-        }   
+
+            m_GameState = new GameState(m_UIPresenter, m_CollectFlowerGame) { Name = "Game" };
+
+        }
 
         private void AddLinks()
         {
