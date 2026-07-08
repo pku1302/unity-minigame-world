@@ -3,4 +3,5 @@
         <ui:Label text="게임 화면" style="-unity-text-align: upper-center;"/>
         <ui:Button text="Finish" name="finish-button"/>
     </ui:VisualElement>
+    <ui:Label text="Label" name="score-label"/>
 </ui:UXML>

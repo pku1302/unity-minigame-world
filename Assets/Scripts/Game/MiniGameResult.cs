@@ -6,6 +6,5 @@ namespace MiniGameWorld.Game
     {
         public int Score { get; set; }
         public float PlayTime { get; set; }
-        
     }
 }

@@ -14,6 +14,8 @@ namespace MiniGameWorld
         private CollectFlowerGame m_CollectFlowerGame;
         StateMachine m_StateMachine = new StateMachine();
 
+        MiniGameResult m_CurrentResult;
+
         IState m_TitleState;
         IState m_MainMenuState;
         IState m_GameSelectState;
@@ -91,10 +93,12 @@ namespace MiniGameWorld
             m_TitleState = new TitleState { Name = "Title" };
             m_MainMenuState = new MainMenuState (m_UIPresenter){ Name = "MainMenu" };
             m_GameSelectState = new GameSelectState (m_UIPresenter) { Name = "GameSelect" };
-            m_ResultState = new ResultState (m_UIPresenter) { Name = "Result" };
-
-            m_GameState = new GameState(m_UIPresenter, m_CollectFlowerGame) { Name = "Game" };
-
+            m_ResultState = new ResultState (m_UIPresenter, () => m_CurrentResult) { Name = "Result" };
+            m_GameState = new GameState(m_UIPresenter, m_CollectFlowerGame, OnGameFinished) { Name = "Game" };
+        }
+        private void OnGameFinished(MiniGameResult result)
+        {
+            m_CurrentResult = result;
         }
 
         private void AddLinks()

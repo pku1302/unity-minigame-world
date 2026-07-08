@@ -1,3 +1,4 @@
+using MiniGameWorld.Game;
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -14,7 +15,6 @@ namespace MiniGameWorld.UI
         private GameSelectView m_GameSelectView;
         private GameView m_GameView;
         private ResultView m_ResultView;
-
         public MainMenuView MainMenuView => m_MainMenuView;
         public GameSelectView GameSelectView => m_GameSelectView;
         public GameView GameView => m_GameView;
@@ -51,7 +51,6 @@ namespace MiniGameWorld.UI
             m_ResultView.RetryClicked += OnStartClicked;
             m_ResultView.MainMenuClicked += OnMainMenuClicked;
         }
-
         private void OnDestroy()
         {
             if (m_MainMenuView != null)
@@ -85,6 +84,14 @@ namespace MiniGameWorld.UI
 
                 m_ResultView.Disable();
             }
+        }
+        public void SetScore(int score)
+        {
+            m_GameView.SetScore(score);
+        }
+        public void SetResult(MiniGameResult result)
+        {
+            m_ResultView.SetResult(result);
         }
 
         private void OnFinishClicked()

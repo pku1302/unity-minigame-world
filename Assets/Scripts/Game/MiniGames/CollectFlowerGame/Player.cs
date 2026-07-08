@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace MiniGameWorld.FlowerGame
@@ -8,10 +9,19 @@ namespace MiniGameWorld.FlowerGame
         PlayerInput m_PlayerInput;
         PlayerMovement m_PlayerMovement;
 
+        public event Action<Vector2Int> Moved;
+        public Vector2Int Position => m_PlayerMovement.Position;
+
         void Awake()
         {
             m_PlayerInput = GetComponent<PlayerInput>();
             m_PlayerMovement = GetComponent<PlayerMovement>();
+            m_PlayerMovement.Moved += OnMoved;
+        }
+
+        public void ResetPlayer(Vector2Int startPosition)
+        {
+            m_PlayerMovement.ResetPosition(startPosition);
         }
 
         public void Initialize(Board board, Vector2Int startPosition)
@@ -26,6 +36,14 @@ namespace MiniGameWorld.FlowerGame
             if (direction != Vector2Int.zero)
                 m_PlayerMovement.Move(direction);
         }
-    }
 
+        private void OnDestroy()
+        {
+            m_PlayerMovement.Moved -= OnMoved;
+        }
+        private void OnMoved(Vector2Int postiion)
+        {
+            Moved?.Invoke(postiion);
+        }
+    }
 }

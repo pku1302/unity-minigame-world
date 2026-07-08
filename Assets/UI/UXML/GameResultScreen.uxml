@@ -3,5 +3,6 @@
         <ui:Label text="게임 결과" style="-unity-text-align: upper-center;"/>
         <ui:Button text="재도전" name="retry-button"/>
         <ui:Button text="메인메뉴" name="main-menu-button"/>
+        <ui:Label text="Score :" name="score-label"/>
     </ui:VisualElement>
 </ui:UXML>

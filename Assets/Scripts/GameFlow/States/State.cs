@@ -7,7 +7,6 @@ namespace MiniGameWorld.Core
     public class State : AbstractState
     {
         readonly Action m_OnExecute;
-
         public State(Action onExecute, string stateName = nameof(State), bool enableDebug = false)
         {
             m_OnExecute = onExecute;

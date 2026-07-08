@@ -7,6 +7,7 @@ namespace MiniGameWorld.UI
     public class GameView : BaseMenuView
     {
         Button m_FinishButton;
+        Label m_ScoreLabel;
 
         public event Action FinishClicked;
 
@@ -18,6 +19,7 @@ namespace MiniGameWorld.UI
         protected override void SetVisualElements()
         {
             m_FinishButton = m_RootElement.Q<Button>("finish-button");
+            m_ScoreLabel = m_RootElement.Q<Label>("score-label");
         }
 
         private void RegisterCallbacks()
@@ -28,6 +30,10 @@ namespace MiniGameWorld.UI
         private void OnFinishClick()
         {
             FinishClicked?.Invoke();
+        }
+        public void SetScore(int score)
+        {
+            m_ScoreLabel.text = $"Score: {score}";
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace MiniGameWorld.FlowerGame
@@ -7,7 +8,9 @@ namespace MiniGameWorld.FlowerGame
         Board m_Board;
 
         Vector2Int m_Position;
+
         public Vector2Int Position => m_Position;
+        public event Action<Vector2Int> Moved;
 
         public void Initialize(Board board, Vector2Int startPosition)
         {
@@ -30,6 +33,12 @@ namespace MiniGameWorld.FlowerGame
             }
 
             m_Position = nextPosition;
+            transform.position = m_Board.GridToWorld(m_Position);
+            Moved?.Invoke(m_Position);
+        }
+        public void ResetPosition(Vector2Int startPosition)
+        {
+            m_Position = startPosition;
             transform.position = m_Board.GridToWorld(m_Position);
         }
     }
