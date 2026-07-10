@@ -17,6 +17,8 @@ namespace MiniGameWorld.FlowerGame
         [SerializeField] Color m_DarkColor = Color.gray;
 
         public event Action<Vector2Int> FlowerSpawned;
+        public int Width => m_Width;
+        public int Height => m_Height;
 
         Tile[,] m_Tiles;
         Coroutine m_SpawnCoroutine;

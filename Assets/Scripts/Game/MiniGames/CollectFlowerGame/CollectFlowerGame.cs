@@ -19,12 +19,13 @@ namespace MiniGameWorld.Game
         }
         public override void Initialize()
         {
+            base.Initialize();
             m_Player.Initialize(m_Board, m_StartPosition);
         }
 
         public override void ResetGame()
         {
-            m_Score = 0;
+            base.ResetGame();
             RaiseScoreChanged(m_Score);
             m_Player.ResetPlayer(m_StartPosition);
             m_Board.ResetBoard();
@@ -32,6 +33,7 @@ namespace MiniGameWorld.Game
 
         public override void StartGame()
         {
+            base.StartGame();
             m_Board.StartSpawn();
         }
 
