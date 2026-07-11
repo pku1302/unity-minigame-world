@@ -26,6 +26,7 @@ namespace MiniGameWorld.Core
             m_MiniGame.gameObject.SetActive(true);
             m_MiniGame.Initialize();
             m_MiniGame.ScoreChanged += OnScoreChanged;
+            m_MiniGame.TimerChanged += OnTimeChanged;
             m_MiniGame.ResetGame();
             m_MiniGame.StartGame();
         }
@@ -33,13 +34,16 @@ namespace MiniGameWorld.Core
         {
             m_UI.SetScore(score);
         }
+        private void OnTimeChanged(float currentTime, float maxTime)
+        {
+            m_UI.UpdateTimer(currentTime, maxTime);
+        }
 
         public override IEnumerator Execute()
         {
             while (true)
                 yield return null;
         }
-
         public override void Exit()
         {
             m_MiniGame.ScoreChanged -= OnScoreChanged;

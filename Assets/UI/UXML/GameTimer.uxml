@@ -1,0 +1,8 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/USS/GameTimer.uss?fileID=7433441132597879392&amp;guid=96005d3befea24d4380ae69eddfd5bf7&amp;type=3#GameTimer"/>
+    <ui:VisualElement name="timer" style="flex-grow: 0;">
+        <ui:VisualElement name="background" style="flex-grow: 1; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(145, 145, 145);">
+            <ui:VisualElement name="fill" style="flex-grow: 1; background-color: rgb(117, 188, 126);"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

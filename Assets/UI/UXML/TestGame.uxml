@@ -1,7 +1,10 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="GameScore" src="project://database/Assets/UI/UXML/GameScore.uxml?fileID=9197481963319205126&amp;guid=4c24df17bfff5c34e9b0d1a96f110de8&amp;type=3#GameScore"/>
+    <ui:Template name="GameTimer" src="project://database/Assets/UI/UXML/GameTimer.uxml?fileID=9197481963319205126&amp;guid=93d0aef4ffa53ef46a7f853becfeca4e&amp;type=3#GameTimer"/>
     <ui:VisualElement name="test-game" style="flex-grow: 1;">
         <ui:Label text="게임 화면" style="-unity-text-align: upper-center;"/>
         <ui:Button text="Finish" name="finish-button"/>
+        <ui:Instance template="GameScore" name="score"/>
+        <ui:Instance template="GameTimer" name="timer"/>
     </ui:VisualElement>
-    <ui:Label text="Label" name="score-label"/>
 </ui:UXML>

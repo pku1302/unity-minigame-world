@@ -1,15 +1,17 @@
 using System;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace MiniGameWorld.UI
 {
     public class GameView : BaseMenuView
     {
-        Button m_FinishButton;
+        VisualElement m_ScoreView;
+        VisualElement m_TimerView;
+        VisualElement m_Fill;
         Label m_ScoreLabel;
+        Button m_FinishButton;
 
-        public event Action FinishClicked;
+        public event Action FinishRequested;
 
         public GameView(VisualElement root) : base(root)
         {
@@ -18,8 +20,11 @@ namespace MiniGameWorld.UI
 
         protected override void SetVisualElements()
         {
+            m_ScoreView = m_RootElement.Q<VisualElement>("score");
+            m_ScoreLabel = m_ScoreView.Q<Label>("score-label");
+            m_TimerView = m_RootElement.Q<VisualElement>("timer");
+            m_Fill = m_TimerView.Q<VisualElement>("fill");
             m_FinishButton = m_RootElement.Q<Button>("finish-button");
-            m_ScoreLabel = m_RootElement.Q<Label>("score-label");
         }
 
         private void RegisterCallbacks()
@@ -29,11 +34,16 @@ namespace MiniGameWorld.UI
 
         private void OnFinishClick()
         {
-            FinishClicked?.Invoke();
+            FinishRequested?.Invoke();
         }
         public void SetScore(int score)
         {
             m_ScoreLabel.text = $"Score: {score}";
+        }
+        public void SetTimer(float currentTime, float maxTime)
+        {
+            float ratio = currentTime / maxTime;
+            m_Fill.style.width = Length.Percent(ratio * 100f);
         }
     }
 }

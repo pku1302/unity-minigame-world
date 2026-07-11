@@ -26,6 +26,8 @@ namespace MiniGameWorld.UI
         public event Action MainMenuRequested;
         public event Action FinishRequested;
 
+        public event Action<float, float> OnTimerChanged;
+
         private void Start()
         {
             Initialize();
@@ -38,7 +40,7 @@ namespace MiniGameWorld.UI
             m_GameSelectView = new GameSelectView(root.Q<VisualElement>("game-select"));
             m_GameView = new GameView(root.Q<VisualElement>("test-game"));
             m_ResultView = new ResultView(root.Q<VisualElement>("game-result"));
-
+            
             m_MainMenuView.StartClicked += OnStartClicked;
             m_MainMenuView.SettingsClicked += OnSettingsClicked;
             m_MainMenuView.QuitClicked += OnQuitClicked;
@@ -46,7 +48,7 @@ namespace MiniGameWorld.UI
             m_GameSelectView.StartClicked += OnStartClicked;
             m_GameSelectView.BackClicked += OnMainMenuClicked;
 
-            m_GameView.FinishClicked += OnFinishClicked;
+            m_GameView.FinishRequested += OnFinishRequested;
 
             m_ResultView.RetryClicked += OnStartClicked;
             m_ResultView.MainMenuClicked += OnMainMenuClicked;
@@ -72,7 +74,7 @@ namespace MiniGameWorld.UI
 
             if (m_GameView != null)
             {
-                m_GameView.FinishClicked -= OnFinishClicked;
+                m_GameView.FinishRequested -= OnFinishRequested;
 
                 m_GameView.Disable();
             }
@@ -85,6 +87,12 @@ namespace MiniGameWorld.UI
                 m_ResultView.Disable();
             }
         }
+
+        public void UpdateTimer(float currentTime, float maxTime)
+        {
+            m_GameView.SetTimer(currentTime, maxTime);
+        }
+
         public void SetScore(int score)
         {
             m_GameView.SetScore(score);
@@ -94,7 +102,7 @@ namespace MiniGameWorld.UI
             m_ResultView.SetResult(result);
         }
 
-        private void OnFinishClicked()
+        private void OnFinishRequested()
         {
             FinishRequested?.Invoke();
         }

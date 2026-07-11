@@ -9,7 +9,6 @@ namespace MiniGameWorld.Game
         [SerializeField] Player m_Player;
 
         private Vector2Int m_StartPosition = new Vector2Int(2, 2);
-
         public int Score => m_Score;
 
         void Awake()
@@ -74,6 +73,8 @@ namespace MiniGameWorld.Game
             gameObject.SetActive(false);
 
             m_Board.StopSpawn();
+
+            RaiseFinished();
         }
         void OnDestroy()
         {

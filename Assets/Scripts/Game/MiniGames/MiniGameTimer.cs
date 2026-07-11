@@ -5,7 +5,7 @@ namespace MiniGameWorld.Game
 {
     public class MiniGameTimer
     {
-        public event Action<float> TimeChanged;
+        public event Action<float, float> TimeChanged;
         public event Action TimeOver;
 
         private float m_CurrentTime;
@@ -20,7 +20,7 @@ namespace MiniGameWorld.Game
         {
             m_CurrentTime = Mathf.Clamp(time, 0f, m_MaxTime);
 
-            TimeChanged?.Invoke( m_CurrentTime);
+            TimeChanged?.Invoke(m_CurrentTime, m_MaxTime);
 
             if (m_IsRunning && m_CurrentTime <= 0f)
             {

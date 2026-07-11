@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-
 namespace MiniGameWorld.Game
 {
     public abstract class MiniGame : MonoBehaviour
@@ -11,10 +10,13 @@ namespace MiniGameWorld.Game
 
         public event Action<MiniGameResult> Finished;
         public event Action<int> ScoreChanged;
-        public event Action<float> TimerChanged;
+        public event Action<float, float> TimerChanged;
 
         [SerializeField]
         private float m_MaxTime = 60f;
+
+        public float MaxTime => m_MaxTime;
+
         protected virtual void Update()
         {
             Timer.Tick(Time.deltaTime);
@@ -32,11 +34,14 @@ namespace MiniGameWorld.Game
         {
             Timer.ReduceTime(amount);
         }
-        protected virtual void OnTimerChanged(float time)
+        protected void RaiseFinished()
         {
-            TimerChanged?.Invoke(time);
+            Finished?.Invoke(GetResult());
         }
-
+        protected virtual void OnTimerChanged(float currentTime, float maxTime)
+        {
+            TimerChanged?.Invoke(currentTime, maxTime);
+        }
         public virtual void Initialize()
         {
             Timer.TimeChanged += OnTimerChanged;
@@ -57,7 +62,6 @@ namespace MiniGameWorld.Game
             Timer.TimeChanged -= OnTimerChanged;
             Timer.TimeOver -= FinishGame;
         }
-
         public virtual MiniGameResult GetResult()
         {
             return new MiniGameResult (m_Score)
