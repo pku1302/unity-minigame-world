@@ -1,4 +1,5 @@
 using MiniGameWorld.FlowerGame;
+using MiniGameWorld.Game;
 using UnityEngine;
 
 namespace MiniGameWorld.FlowerGame
@@ -8,9 +9,9 @@ namespace MiniGameWorld.FlowerGame
         [SerializeField] SpriteRenderer m_SpriteRenderer;
         public Vector2Int Position { get; private set; }
 
-        public Flower Flower { get; private set; }
+        public Collectible Collectible { get; private set; }
 
-        public bool HasFlower => Flower != null;
+        public bool HasCollectible => Collectible != null;
 
         public void Initialize(Vector2Int position)
         {
@@ -22,14 +23,14 @@ namespace MiniGameWorld.FlowerGame
             m_SpriteRenderer.color = color;
         }
 
-        public void SetFlower(Flower flower)
+        public void SetCollectible(Collectible collectible)
         {
-            Flower = flower;
+            Collectible = collectible;
         }
 
-        public void RemoveFlower()
+        public void RemoveCollectible()
         {
-            Flower = null;
+            Collectible = null;
         }
 
         void Start()

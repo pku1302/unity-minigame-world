@@ -8,8 +8,14 @@ namespace MiniGameWorld.Game
         Flower,
 
     }
+    public interface ICollectContext
+    {
+        void AddScore(int amount);
+        void AddTime(float amount);
+        void AddCoin(int amount);
+    }
 
-    public abstract class MiniGame : MonoBehaviour
+    public abstract class MiniGame : MonoBehaviour, ICollectContext
     {
         protected int m_Score;
         protected GameType m_Type;
@@ -18,6 +24,7 @@ namespace MiniGameWorld.Game
         public event Action<MiniGameResult> GameFinished;
         public event Action<int> ScoreChanged;
         public event Action<float, float> TimerChanged;
+        public event Action<int> CoinCollected;
 
         [SerializeField]
         private float m_MaxTime = 60f;
@@ -33,10 +40,20 @@ namespace MiniGameWorld.Game
         {
             ScoreChanged?.Invoke(score);
         }
-        protected void AddTime(float amount)
+        public void AddTime(float amount)
         {
             Timer.AddTime(amount);
         }
+        public void AddScore(int amount)
+        {
+            m_Score += amount;
+            RaiseScoreChanged(m_Score);
+        }
+        public void AddCoin(int amount)
+        {
+            CoinCollected?.Invoke(amount);
+        }
+
         protected void ReduceTime(float amount)
         {
             Timer.ReduceTime(amount);

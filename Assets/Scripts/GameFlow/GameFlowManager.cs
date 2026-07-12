@@ -16,6 +16,7 @@ namespace MiniGameWorld
         StateMachine m_StateMachine = new StateMachine();
         SaveManager m_SaveManager;
         GameRecordManager m_GameRecordManager;
+        CurrencyManager m_CurrencyManager;
         MiniGameResult m_CurrentResult;
 
         IState m_TitleState;
@@ -42,6 +43,7 @@ namespace MiniGameWorld
         {
             m_SaveManager = new SaveManager();
             m_GameRecordManager = new GameRecordManager(m_SaveManager);
+            m_CurrencyManager = new CurrencyManager(m_SaveManager);
             m_GameRecordManager.Load();
 
             SetStates();
@@ -55,11 +57,17 @@ namespace MiniGameWorld
             m_UIPresenter.QuitRequested += OnQuitRequested;
             m_UIPresenter.MainMenuRequested += OnMainMenuRequested;
             m_UIPresenter.FinishRequested += OnFinishRequested;
+
+            m_CollectFlowerGame.CoinCollected += OnCoinCollected;
         }
 
         private void OnStateChanged(IState previous, IState current)
         {
             ResetRequests();
+        }
+        private void OnCoinCollected(int amount)
+        {
+            m_CurrencyManager.Add(amount);
         }
 
         private void ResetRequests()
@@ -97,7 +105,7 @@ namespace MiniGameWorld
         private void SetStates()
         {
             m_TitleState = new TitleState { Name = "Title" };
-            m_MainMenuState = new MainMenuState (m_UIPresenter){ Name = "MainMenu" };
+            m_MainMenuState = new MainMenuState (m_UIPresenter, m_CurrencyManager){ Name = "MainMenu" };
             m_GameSelectState = new GameSelectState (m_UIPresenter, m_GameRecordManager) { Name = "GameSelect" };
             m_ResultState = new ResultState (m_UIPresenter, () => m_CurrentResult, m_GameRecordManager) { Name = "Result" };
             m_GameState = new GameState(m_UIPresenter, m_CollectFlowerGame, OnGameFinished) { Name = "Game" };

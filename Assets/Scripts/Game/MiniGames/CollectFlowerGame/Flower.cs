@@ -1,17 +1,14 @@
+using MiniGameWorld.Game;
 using UnityEngine;
 
 namespace MiniGameWorld.FlowerGame
 {
-    public class Flower : MonoBehaviour
+    public class Flower : Collectible
     {
-        void Start()
+        public override void Collect(ICollectContext miniGame)
         {
-
-        }
-
-        void Update()
-        {
-
+            miniGame.AddTime(3f);
+            miniGame.AddScore(5);
         }
     }
 }

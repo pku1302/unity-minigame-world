@@ -312,8 +312,10 @@ MonoBehaviour:
   m_SpawnInterval: 3
   m_TilePrefab: {fileID: 4334423410295867260, guid: fb202509beae9844e88cf6e0d3de888d, type: 3}
   m_FlowerPrefab: {fileID: 935453964362370852, guid: a4768cc8ebae9864f9b5e2569781545d, type: 3}
+  m_CoinPrefab: {fileID: -7521254903009643490, guid: b026ffd8d4d1b49478b172ecc9a3fd69, type: 3}
   m_LightColor: {r: 0.45882353, g: 0.74509805, b: 0.40784314, a: 1}
   m_DarkColor: {r: 0.20535775, g: 0.3132075, b: 0.18615162, a: 1}
+  m_CoinSpawnChance: 0.2
 --- !u!1 &1782765617
 GameObject:
   m_ObjectHideFlags: 0

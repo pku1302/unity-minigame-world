@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using MiniGameWorld.Game;
 
 namespace MiniGameWorld.FlowerGame
 {
@@ -13,8 +14,10 @@ namespace MiniGameWorld.FlowerGame
         [SerializeField] float m_SpawnInterval = 3f;
         [SerializeField] Tile m_TilePrefab;
         [SerializeField] Flower m_FlowerPrefab;
+        [SerializeField] Coin m_CoinPrefab;
         [SerializeField] Color m_LightColor = Color.white;
         [SerializeField] Color m_DarkColor = Color.gray;
+        [SerializeField, UnityEngine.Range(0f, 1f)] private float m_CoinSpawnChance = 0.2f;
 
         public event Action<Vector2Int> FlowerSpawned;
         public int Width => m_Width;
@@ -56,7 +59,7 @@ namespace MiniGameWorld.FlowerGame
         {
             StopSpawn();
 
-            ClearFlowers();
+            ClearCollectibles();
         }
 
         public void StartSpawn()
@@ -74,15 +77,15 @@ namespace MiniGameWorld.FlowerGame
                 m_SpawnCoroutine = null;
             }
         }
-        private void ClearFlowers()
+        private void ClearCollectibles()
         {
             foreach (Tile tile in m_Tiles)
             {
-                if (!tile.HasFlower)
+                if (!tile.HasCollectible)
                     continue;
 
-                Destroy(tile.Flower.gameObject);
-                tile.RemoveFlower();
+                Destroy(tile.Collectible.gameObject);
+                tile.RemoveCollectible();
             }
         }
         private IEnumerator SpawnLoop()
@@ -91,23 +94,38 @@ namespace MiniGameWorld.FlowerGame
             {
                 yield return new WaitForSeconds(m_SpawnInterval);
 
-                SpawnFlower();
+                SpawnObject();
             }
         }
-        private void SpawnFlower()
+        private void SpawnObject()
         {
             Tile tile = GetRandomEmptyTile();
 
             if (tile == null)
                 return;
 
-            Flower flower = Instantiate(
+            if (UnityEngine.Random.value < m_CoinSpawnChance)
+            {
+                Coin coin = Instantiate(
+                    m_CoinPrefab,
+                    GridToWorld(tile.Position),
+                    Quaternion.identity,
+                    transform
+                    );
+
+                tile.SetCollectible(coin);
+            }
+            else
+            {
+                Flower flower = Instantiate(
                 m_FlowerPrefab,
                 GridToWorld(tile.Position),
                 Quaternion.identity,
                 transform);
 
-            tile.SetFlower(flower);
+                tile.SetCollectible(flower);
+            }
+
             FlowerSpawned?.Invoke(tile.Position);
         }
         private Tile GetRandomEmptyTile()
@@ -116,7 +134,7 @@ namespace MiniGameWorld.FlowerGame
 
             foreach (Tile tile in m_Tiles)
             {
-                if (!tile.HasFlower)
+                if (!tile.HasCollectible)
                     emptyTiles.Add(tile);
             }
 

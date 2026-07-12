@@ -39,24 +39,19 @@ namespace MiniGameWorld.Game
             m_LaserSystem.StartSystem();
         }
 
-        private void AddScore(int amount)
-        {
-            m_Score += amount;
-            RaiseScoreChanged(m_Score);
-        }
-        private void TryCollectFlower(Vector2Int position)
+        private void TryCollectObject(Vector2Int position)
         {
             Tile tile = m_Board.GetTile(m_Player.Position);
 
-            if (!tile.HasFlower)
+            if (!tile.HasCollectible)
                 return;
 
-            CollectFlower(tile);
+            CollectObject(tile);
         }
 
         private void OnPlayerMoved(Vector2Int position)
         {
-            TryCollectFlower(position);
+            TryCollectObject(position);
         }
         private void OnPlayerHit()
         {
@@ -64,16 +59,17 @@ namespace MiniGameWorld.Game
         }
         private void OnFlowerSpawned(Vector2Int position)
         {
-            TryCollectFlower(position);
+            TryCollectObject(position);
         }
 
-        private void CollectFlower(Tile tile)
+        private void CollectObject(Tile tile)
         {
-            Destroy(tile.Flower.gameObject);
-            tile.RemoveFlower();
+            Collectible collectible = tile.Collectible;
 
-            AddScore(5);
-            AddTime(3f);
+            collectible.Collect(this);
+
+            tile.RemoveCollectible();
+            Destroy(collectible.gameObject);
         }
         public override void FinishGame()
         {
@@ -87,6 +83,8 @@ namespace MiniGameWorld.Game
         void OnDestroy()
         {
             m_Player.Moved -= OnPlayerMoved;   
+            m_Player.Hit -= OnPlayerHit;
+            m_Board.FlowerSpawned -= OnFlowerSpawned;
         }
         public override void Dispose()
         {

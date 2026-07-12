@@ -10,6 +10,8 @@ namespace MiniGameWorld.UI
         Button m_SettingsButton;
         Button m_QuitButton;
 
+        Label m_CoinCountLabel;
+
         public event Action StartClicked;
         public event Action SettingsClicked;
         public event Action QuitClicked;
@@ -24,6 +26,7 @@ namespace MiniGameWorld.UI
             m_StartButton = m_RootElement.Q<Button>("start-button");
             m_SettingsButton = m_RootElement.Q<Button>("settings-button");
             m_QuitButton = m_RootElement.Q<Button>("quit-button");
+            m_CoinCountLabel = m_RootElement.Q<Label>("coin-count-label");
         }
 
         private void RegisterCallbacks()
@@ -46,6 +49,10 @@ namespace MiniGameWorld.UI
         private void OnQuitClick()
         {
             QuitClicked?.Invoke();
+        }
+        public void SetCoinCount(int count)
+        {
+            m_CoinCountLabel.text = $"Coin : {count}";
         }
 
     }

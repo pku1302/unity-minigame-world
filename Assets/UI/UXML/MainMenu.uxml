@@ -4,5 +4,6 @@
         <ui:Button text="Start" name="start-button"/>
         <ui:Button text="Button" name="settings-button"/>
         <ui:Button text="Quit" name="quit-button"/>
+        <ui:Label text="Coin :" name="coin-count-label" emoji-fallback-support="true"/>
     </ui:VisualElement>
 </ui:UXML>
