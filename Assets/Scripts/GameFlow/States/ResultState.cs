@@ -10,10 +10,13 @@ namespace MiniGameWorld.Core
     {
         private readonly UIPresenter m_UI;
         private readonly Func<MiniGameResult> m_ResultGetter;
-        public ResultState(UIPresenter uIPresenter, Func<MiniGameResult> resultGetter)
+        private readonly GameRecordManager m_RecordManager;
+
+        public ResultState(UIPresenter uIPresenter, Func<MiniGameResult> resultGetter, GameRecordManager gameRecordManager)
         {
             m_UI = uIPresenter;
             m_ResultGetter = resultGetter;
+            m_RecordManager = gameRecordManager;
         }
         public override void Enter()
         {

@@ -3,12 +3,19 @@ using UnityEngine;
 
 namespace MiniGameWorld.Game
 {
+    public enum GameType
+    {
+        Flower,
+
+    }
+
     public abstract class MiniGame : MonoBehaviour
     {
         protected int m_Score;
+        protected GameType m_Type;
         protected MiniGameTimer Timer = new MiniGameTimer();
 
-        public event Action<MiniGameResult> Finished;
+        public event Action<MiniGameResult> GameFinished;
         public event Action<int> ScoreChanged;
         public event Action<float, float> TimerChanged;
 
@@ -36,7 +43,7 @@ namespace MiniGameWorld.Game
         }
         protected void RaiseFinished()
         {
-            Finished?.Invoke(GetResult());
+            GameFinished?.Invoke(GetResult());
         }
         protected virtual void OnTimerChanged(float currentTime, float maxTime)
         {
@@ -64,9 +71,10 @@ namespace MiniGameWorld.Game
         }
         public virtual MiniGameResult GetResult()
         {
-            return new MiniGameResult (m_Score)
+            return new MiniGameResult (m_Score, m_Type)
             {
-                Score = m_Score
+                Score = m_Score,
+                GameType = m_Type
             };
         }
     }

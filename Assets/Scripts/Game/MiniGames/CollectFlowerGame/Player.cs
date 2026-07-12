@@ -10,6 +10,7 @@ namespace MiniGameWorld.FlowerGame
         PlayerMovement m_PlayerMovement;
 
         public event Action<Vector2Int> Moved;
+        public event Action Hit;
         public Vector2Int Position => m_PlayerMovement.Position;
 
         void Awake()
@@ -22,6 +23,11 @@ namespace MiniGameWorld.FlowerGame
         public void ResetPlayer(Vector2Int startPosition)
         {
             m_PlayerMovement.ResetPosition(startPosition);
+        }
+
+        public void RaiseHit()
+        {
+            Hit?.Invoke();
         }
 
         public void Initialize(Board board, Vector2Int startPosition)

@@ -38,23 +38,22 @@ namespace MiniGameWorld.FlowerGame
         }
         public void FireLaser()
         {
-            if (m_Laser == null)
-            {
-                m_Laser = Instantiate(
-                    m_LaserPrefab,
-                    transform.position,
-                    transform.rotation,
-                    transform);
-            }
-
             Laser laser = Instantiate(
                 m_LaserPrefab,
                 transform.position,
                 transform.rotation);
 
             laser.Initialize(6f, m_Direction);
-
+            m_Laser = laser;
             Destroy(laser.gameObject, 1.3f);
+        }
+        void OnDisable()
+        {
+            if (m_Laser == null)
+                return;
+
+            Destroy(m_Laser.gameObject);   
+            m_Laser = null;
         }
     }
 }

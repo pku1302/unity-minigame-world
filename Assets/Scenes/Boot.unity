@@ -259,8 +259,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e14b78a2624275942a1d18213c4f7bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameWorld.Game.CollectFlowerGame
+  m_MaxTime: 60
   m_Board: {fileID: 1153371138}
   m_Player: {fileID: 1846969271}
+  m_LaserSystem: {fileID: 28740150}
 --- !u!1 &1153371136
 GameObject:
   m_ObjectHideFlags: 0

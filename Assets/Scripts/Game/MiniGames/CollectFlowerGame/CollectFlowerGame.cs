@@ -7,6 +7,7 @@ namespace MiniGameWorld.Game
     {
         [SerializeField] Board m_Board;
         [SerializeField] Player m_Player;
+        [SerializeField] LaserSystem m_LaserSystem;
 
         private Vector2Int m_StartPosition = new Vector2Int(2, 2);
         public int Score => m_Score;
@@ -14,6 +15,7 @@ namespace MiniGameWorld.Game
         void Awake()
         {
             m_Player.Moved += OnPlayerMoved;
+            m_Player.Hit += OnPlayerHit;
             m_Board.FlowerSpawned += OnFlowerSpawned;
         }
         public override void Initialize()
@@ -34,6 +36,7 @@ namespace MiniGameWorld.Game
         {
             base.StartGame();
             m_Board.StartSpawn();
+            m_LaserSystem.StartSystem();
         }
 
         private void AddScore(int amount)
@@ -55,6 +58,10 @@ namespace MiniGameWorld.Game
         {
             TryCollectFlower(position);
         }
+        private void OnPlayerHit()
+        {
+            ReduceTime(10f);
+        }
         private void OnFlowerSpawned(Vector2Int position)
         {
             TryCollectFlower(position);
@@ -66,13 +73,14 @@ namespace MiniGameWorld.Game
             tile.RemoveFlower();
 
             AddScore(5);
-            Debug.Log($"Score : {m_Score}");
+            AddTime(3f);
         }
         public override void FinishGame()
         {
-            gameObject.SetActive(false);
-
             m_Board.StopSpawn();
+            m_LaserSystem.StopSystem();
+
+            gameObject.SetActive(false);
 
             RaiseFinished();
         }

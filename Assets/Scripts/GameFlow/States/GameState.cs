@@ -10,13 +10,14 @@ namespace MiniGameWorld.Core
     {
         private readonly UIPresenter m_UI;
         private readonly MiniGame m_MiniGame;
-        private readonly Action<MiniGameResult> m_ResultCallback;
 
-        public GameState(UIPresenter uIPresenter, MiniGame miniGame, Action<MiniGameResult> resultCallback)
+        public event Action<MiniGameResult> GameFinishedCallback;
+
+        public GameState(UIPresenter uIPresenter, MiniGame miniGame, Action<MiniGameResult> gameFinishedCallback)
         {
             m_UI = uIPresenter;
             m_MiniGame = miniGame;
-            m_ResultCallback = resultCallback;
+            GameFinishedCallback = gameFinishedCallback;
         }
         public override void Enter()
         {
@@ -27,9 +28,15 @@ namespace MiniGameWorld.Core
             m_MiniGame.Initialize();
             m_MiniGame.ScoreChanged += OnScoreChanged;
             m_MiniGame.TimerChanged += OnTimeChanged;
+            m_MiniGame.GameFinished += OnGameFinished;
             m_MiniGame.ResetGame();
             m_MiniGame.StartGame();
         }
+        private void OnGameFinished(MiniGameResult result)
+        {
+            GameFinishedCallback?.Invoke(result);
+        }
+
         private void OnScoreChanged(int score)
         {
             m_UI.SetScore(score);
@@ -47,7 +54,6 @@ namespace MiniGameWorld.Core
         public override void Exit()
         {
             m_MiniGame.ScoreChanged -= OnScoreChanged;
-            m_ResultCallback?.Invoke(m_MiniGame.GetResult());
             m_MiniGame.FinishGame();
         }
     }

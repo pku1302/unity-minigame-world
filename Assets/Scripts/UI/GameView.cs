@@ -5,10 +5,8 @@ namespace MiniGameWorld.UI
 {
     public class GameView : BaseMenuView
     {
-        VisualElement m_ScoreView;
-        VisualElement m_TimerView;
-        VisualElement m_Fill;
-        Label m_ScoreLabel;
+        ScoreView m_ScoreView;
+        TimerView m_TimerView;
         Button m_FinishButton;
 
         public event Action FinishRequested;
@@ -16,14 +14,12 @@ namespace MiniGameWorld.UI
         public GameView(VisualElement root) : base(root)
         {
             RegisterCallbacks();
+            m_ScoreView = new ScoreView(root);
+            m_TimerView = new TimerView(root);
         }
 
         protected override void SetVisualElements()
         {
-            m_ScoreView = m_RootElement.Q<VisualElement>("score");
-            m_ScoreLabel = m_ScoreView.Q<Label>("score-label");
-            m_TimerView = m_RootElement.Q<VisualElement>("timer");
-            m_Fill = m_TimerView.Q<VisualElement>("fill");
             m_FinishButton = m_RootElement.Q<Button>("finish-button");
         }
 
@@ -38,12 +34,11 @@ namespace MiniGameWorld.UI
         }
         public void SetScore(int score)
         {
-            m_ScoreLabel.text = $"Score: {score}";
+            m_ScoreView.SetScore(score);
         }
         public void SetTimer(float currentTime, float maxTime)
         {
-            float ratio = currentTime / maxTime;
-            m_Fill.style.width = Length.Percent(ratio * 100f);
+            m_TimerView.SetFill(currentTime / maxTime);
         }
     }
 }

@@ -11,7 +11,6 @@ namespace MiniGameWorld.FlowerGame
         Left,
         Right
     }
-
     public class LaserSystem : MonoBehaviour
     {
         [SerializeField]
@@ -38,11 +37,6 @@ namespace MiniGameWorld.FlowerGame
             m_RightSpawners = new LaserSpawner[m_Board.Height];
 
             CreateSpawners();
-        }
-
-        void Start()
-        {
-            StartSystem();
         }
 
         public void StartSystem()
@@ -77,7 +71,6 @@ namespace MiniGameWorld.FlowerGame
             CreateLeftSpawners();
             CreateRightSpawners();
         }
-
         private void CreateTopSpawners()
         {
             for (int x = 0; x < m_Board.Width; x++)
@@ -97,7 +90,6 @@ namespace MiniGameWorld.FlowerGame
                     LaserDirection.Up);
             }
         }
-
         private void CreateLeftSpawners()
         {
             for (int y = 0; y < m_Board.Height; y++)
@@ -116,7 +108,6 @@ namespace MiniGameWorld.FlowerGame
                     LaserDirection.Left);
             }
         }
-
         private LaserSpawner CreateSpawner(Vector2Int gridPosition, LaserDirection direction)
         {
             LaserSpawner spawner = Instantiate(
@@ -129,7 +120,6 @@ namespace MiniGameWorld.FlowerGame
 
             return spawner;
         }
-
         private Quaternion GetRotation(LaserDirection direction)
         {
             return direction switch
@@ -163,7 +153,6 @@ namespace MiniGameWorld.FlowerGame
                     m_RightSpawners[Random.Range(0, m_RightSpawners.Length)].Fire();
                     break;
             }
-
         }
     }
 }
