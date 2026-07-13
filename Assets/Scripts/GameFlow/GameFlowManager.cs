@@ -45,6 +45,7 @@ namespace MiniGameWorld
             m_GameRecordManager = new GameRecordManager(m_SaveManager);
             m_CurrencyManager = new CurrencyManager(m_SaveManager);
             m_GameRecordManager.Load();
+            m_CurrencyManager.Load();
 
             SetStates();
             AddLinks();
@@ -143,6 +144,11 @@ namespace MiniGameWorld
                 new ConditionLink(
                     () => m_IsFinishRequested,
                     m_ResultState));
+
+            m_GameState.AddLink(
+                new ConditionLink(
+                    () => m_IsMainMenuRequested,
+                    m_MainMenuState));
 
             m_ResultState.AddLink(
                 new ConditionLink(

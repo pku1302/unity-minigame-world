@@ -15,16 +15,21 @@ namespace MiniGameWorld.UI
         private GameSelectView m_GameSelectView;
         private GameView m_GameView;
         private ResultView m_ResultView;
+        private PauseView m_PauseView;
+
         public MainMenuView MainMenuView => m_MainMenuView;
         public GameSelectView GameSelectView => m_GameSelectView;
         public GameView GameView => m_GameView;
         public ResultView ResultView => m_ResultView;
+        public PauseView PauseView => m_PauseView;
 
         public event Action StartRequested;
         public event Action SettingsRequested;
         public event Action QuitRequested;
         public event Action MainMenuRequested;
         public event Action FinishRequested;
+        public event Action PauseRequested;
+        public event Action ResumeRequested;
 
         public event Action<float, float> OnTimerChanged;
 
@@ -40,6 +45,7 @@ namespace MiniGameWorld.UI
             m_GameSelectView = new GameSelectView(root.Q<VisualElement>("game-select"));
             m_GameView = new GameView(root.Q<VisualElement>("test-game"));
             m_ResultView = new ResultView(root.Q<VisualElement>("game-result"));
+            m_PauseView = new PauseView(root.Q<VisualElement>("pause-overlay"));
             
             m_MainMenuView.StartClicked += OnStartClicked;
             m_MainMenuView.SettingsClicked += OnSettingsClicked;
@@ -49,9 +55,13 @@ namespace MiniGameWorld.UI
             m_GameSelectView.BackClicked += OnMainMenuClicked;
 
             m_GameView.FinishRequested += OnFinishRequested;
+            m_GameView.PauseRequested += OnPauseRequested;
 
             m_ResultView.RetryClicked += OnStartClicked;
             m_ResultView.MainMenuClicked += OnMainMenuClicked;
+
+            m_PauseView.ResumeRequested += OnResumeClicked;
+            m_PauseView.MainMenuRequested += OnMainMenuClicked;
         }
         private void OnDestroy()
         {
@@ -102,11 +112,19 @@ namespace MiniGameWorld.UI
             m_ResultView.SetResult(result);
         }
 
+        private void OnResumeClicked()
+        {
+            ResumeRequested?.Invoke();
+        }
+
         private void OnFinishRequested()
         {
             FinishRequested?.Invoke();
         }
-
+        private void OnPauseRequested()
+        {
+            PauseRequested?.Invoke();
+        }
         private void OnMainMenuClicked()
         {
             MainMenuRequested?.Invoke();
@@ -139,6 +157,14 @@ namespace MiniGameWorld.UI
         public void HideView(UIView view)
         {
             view.Hide();
+        }
+        public void OpenPopup(PopupView popup)
+        {
+            popup.Show();
+        }
+        public void ClosePopup(PopupView popup)
+        {
+            popup.Hide();
         }
 
     }

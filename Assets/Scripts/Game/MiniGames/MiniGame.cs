@@ -14,7 +14,6 @@ namespace MiniGameWorld.Game
         void AddTime(float amount);
         void AddCoin(int amount);
     }
-
     public abstract class MiniGame : MonoBehaviour, ICollectContext
     {
         protected int m_Score;
@@ -34,6 +33,15 @@ namespace MiniGameWorld.Game
         protected virtual void Update()
         {
             Timer.Tick(Time.deltaTime);
+        }
+
+        public virtual void Pause()
+        {
+
+        }
+        public virtual void Resume()
+        {
+
         }
 
         protected void RaiseScoreChanged(int score)

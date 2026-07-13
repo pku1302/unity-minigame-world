@@ -8,8 +8,10 @@ namespace MiniGameWorld.UI
         ScoreView m_ScoreView;
         TimerView m_TimerView;
         Button m_FinishButton;
+        Button m_PauseButton;
 
         public event Action FinishRequested;
+        public event Action PauseRequested;
 
         public GameView(VisualElement root) : base(root)
         {
@@ -21,11 +23,17 @@ namespace MiniGameWorld.UI
         protected override void SetVisualElements()
         {
             m_FinishButton = m_RootElement.Q<Button>("finish-button");
+            m_PauseButton = m_RootElement.Q<Button>("pause-button");
         }
 
         private void RegisterCallbacks()
         {
             m_EventRegistry.RegisterCallback<ClickEvent>(m_FinishButton, OnFinishClick);
+            m_EventRegistry.RegisterCallback<ClickEvent>(m_PauseButton, OnPauseRequested);
+        }
+        private void OnPauseRequested()
+        {
+            PauseRequested?.Invoke();
         }
 
         private void OnFinishClick()

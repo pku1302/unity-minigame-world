@@ -24,6 +24,18 @@ namespace MiniGameWorld.Game
             m_Player.Initialize(m_Board, m_StartPosition);
         }
 
+        public override void Pause()
+        {
+            Time.timeScale = 0f;
+            m_Player.enabled = false;
+        }
+
+        public override void Resume()
+        {
+            Time.timeScale = 1f;
+            m_Player.enabled = true;
+        }
+
         public override void ResetGame()
         {
             base.ResetGame();

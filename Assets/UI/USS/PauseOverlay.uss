@@ -1,0 +1,38 @@
+#pause-overlay
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    justify-content: center;
+    align-items: center;
+}
+
+#dim
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: rgba(0,0,0,0.5);
+}
+
+#pause-panel
+{
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+    width: 600px;
+    height: 600px;
+}
+
+#pause-panel Button
+{
+    width: 400px;
+    margin-bottom: 10px;
+}

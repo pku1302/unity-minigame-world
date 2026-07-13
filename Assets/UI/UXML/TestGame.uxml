@@ -4,6 +4,7 @@
     <ui:VisualElement name="test-game" style="flex-grow: 1;">
         <ui:Label text="게임 화면" style="-unity-text-align: upper-center;"/>
         <ui:Button text="Finish" name="finish-button"/>
+        <ui:Button text="일시정지" name="pause-button"/>
         <ui:Instance template="GameScore" name="score"/>
         <ui:Instance template="GameTimer" name="timer"/>
     </ui:VisualElement>
