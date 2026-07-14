@@ -1,28 +1,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 using MiniGameWorld.Game;
+using System;
 
 namespace MiniGameWorld.Core
 {
-    public class GameRecord
+    public abstract class GameRecord
     {
-        public int BestScore { get; private set; }
-        public int PlayCount { get; private set; }
+        protected GameType GameType { get; }
 
+        protected GameRecord(GameType gameType)
+        {
+            GameType = gameType;
+        }
+
+        public int BestScore { get; protected set; }
+        public int PlayCount { get; protected set; }
+
+        public abstract void UpdateRecord(MiniGameResult result);
         public void UpdateScore(int score)
         {
-            if (score > BestScore)
-            {
+            if (BestScore > score)
                 BestScore = score;
-            }
+        }
 
-            PlayCount++;
-        }
-        public void Load(int bestScore, int playCount)
+        public virtual void Load(SaveManager saveManager)
         {
-            BestScore = bestScore;
-            PlayCount = playCount;
+            BestScore = saveManager.LoadInt($"{GameType}_BestScore");
+            PlayCount = saveManager.LoadInt($"{GameType}_PlayCount");
         }
+        public virtual void Save(SaveManager saveManager)
+        {
+            saveManager.SaveInt($"{GameType}_BestScore", BestScore);
+            saveManager.SaveInt($"{GameType}_PlayCount", PlayCount);
+        }
+        
     }
 
     public class GameRecordManager
@@ -30,47 +42,37 @@ namespace MiniGameWorld.Core
         private readonly Dictionary<GameType, GameRecord> m_Records = new();
         private readonly SaveManager m_SaveManager;
 
+        public event Action<GameType, GameRecord> RecordUpdated;
+
         public GameRecordManager(SaveManager saveManager)
         {
             m_SaveManager = saveManager;
 
             foreach (GameType gameType in System.Enum.GetValues(typeof(GameType)))
             {
-                m_Records.Add(gameType, new GameRecord());
+                m_Records.Add(gameType, CreateRecord(gameType));
             }
         }
-        private string GetBestScoreKey(GameType gameType)
+        private GameRecord CreateRecord(GameType gameType)
         {
-            return $"{gameType}_BestScore";
+            return gameType switch
+            {
+                GameType.Flower => new FlowerGameRecord(),
+
+                _ => throw new ArgumentOutOfRangeException(nameof(gameType), gameType, null)
+            };
         }
-        private string GetPlayCountKey(GameType gameType)
-        {
-            return $"{gameType}_PlayCount";
-        }
+
         public void Load()
         {
-            foreach (GameType gameType in System.Enum.GetValues(typeof(GameType)))
+            foreach (GameRecord record in m_Records.Values)
             {
-                GameRecord record = m_Records[gameType];
-
-                record.Load(
-                    m_SaveManager.LoadInt(GetBestScoreKey(gameType)),
-                    m_SaveManager.LoadInt(GetPlayCountKey(gameType))
-                    );
+                record.Load(m_SaveManager);
             }
         }
         public void Save(GameType gameType)
         {
-            GameRecord record = m_Records[gameType];
-
-            m_SaveManager.SaveInt(
-                GetBestScoreKey(gameType),
-                record.BestScore);
-
-            m_SaveManager.SaveInt(
-                GetPlayCountKey(gameType),
-                record.PlayCount);
-
+            m_Records[gameType].Save(m_SaveManager);
             m_SaveManager.Save();
         }
 
@@ -78,11 +80,15 @@ namespace MiniGameWorld.Core
         {
             return m_Records[gameType];
         }
-        public void UpdateScore(GameType gameType, int score)
+        public void UpdateRecord(MiniGameResult result)
         {
-            m_Records[gameType].UpdateScore(score);
+            GameRecord record = m_Records[result.GameType];
 
-            Save(gameType);
+            record.UpdateRecord(result);
+
+            RecordUpdated?.Invoke(result.GameType, record);
+
+            Save(result.GameType);
         }
     }
 }

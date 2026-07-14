@@ -114,7 +114,7 @@ namespace MiniGameWorld
         private void OnGameFinished(MiniGameResult result)
         {
             m_CurrentResult = result;
-            m_GameRecordManager.UpdateScore(result.GameType, result.Score);
+            m_GameRecordManager.UpdateRecord(result);
             m_IsFinishRequested = true;
         }
 

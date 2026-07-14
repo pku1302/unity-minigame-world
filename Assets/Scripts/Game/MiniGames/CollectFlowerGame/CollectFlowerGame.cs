@@ -1,16 +1,28 @@
 using UnityEngine;
 using MiniGameWorld.FlowerGame;
+using System;
 
 namespace MiniGameWorld.Game
-{ 
-    public class CollectFlowerGame : MiniGame
+{
+    public interface ICollectContext
+    {
+        void AddScore(int amount);
+        void AddTime(float amount);
+        void AddCoin(int amount);
+        void NotifyFlowerCollected();
+    }
+    public class CollectFlowerGame : MiniGame, ICollectContext
     {
         [SerializeField] Board m_Board;
         [SerializeField] Player m_Player;
         [SerializeField] LaserSystem m_LaserSystem;
 
+        public event Action FlowerCollected;
+
+        private int m_FlowerCount;
         private Vector2Int m_StartPosition = new Vector2Int(2, 2);
         public int Score => m_Score;
+        public int FlowerCount => m_FlowerCount;
 
         void Awake()
         {
@@ -22,6 +34,10 @@ namespace MiniGameWorld.Game
         {
             base.Initialize();
             m_Player.Initialize(m_Board, m_StartPosition);
+        }
+        public void NotifyFlowerCollected()
+        {
+            FlowerCollected?.Invoke();
         }
 
         public override void Pause()
@@ -92,6 +108,14 @@ namespace MiniGameWorld.Game
 
             RaiseFinished();
         }
+
+        public override MiniGameResult GetResult()
+        {
+            return new FlowerGameResult(
+                m_Score,
+                m_FlowerCount);
+        }
+
         void OnDestroy()
         {
             m_Player.Moved -= OnPlayerMoved;   

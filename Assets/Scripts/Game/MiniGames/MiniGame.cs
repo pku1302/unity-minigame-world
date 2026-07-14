@@ -6,15 +6,10 @@ namespace MiniGameWorld.Game
     public enum GameType
     {
         Flower,
+    }
 
-    }
-    public interface ICollectContext
-    {
-        void AddScore(int amount);
-        void AddTime(float amount);
-        void AddCoin(int amount);
-    }
-    public abstract class MiniGame : MonoBehaviour, ICollectContext
+
+    public abstract class MiniGame : MonoBehaviour
     {
         protected int m_Score;
         protected GameType m_Type;
@@ -94,13 +89,6 @@ namespace MiniGameWorld.Game
             Timer.TimeChanged -= OnTimerChanged;
             Timer.TimeOver -= FinishGame;
         }
-        public virtual MiniGameResult GetResult()
-        {
-            return new MiniGameResult (m_Score, m_Type)
-            {
-                Score = m_Score,
-                GameType = m_Type
-            };
-        }
+        public abstract MiniGameResult GetResult();
     }
 }

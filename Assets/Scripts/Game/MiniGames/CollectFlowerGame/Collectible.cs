@@ -15,5 +15,6 @@ namespace MiniGameWorld.FlowerGame
 
         }
         public abstract void Collect(ICollectContext miniGame);
+
     }
 }
