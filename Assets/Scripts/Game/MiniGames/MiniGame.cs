@@ -1,3 +1,4 @@
+using MiniGameWorld.Core;
 using System;
 using UnityEngine;
 
@@ -14,11 +15,11 @@ namespace MiniGameWorld.Game
         protected int m_Score;
         protected GameType m_Type;
         protected MiniGameTimer Timer = new MiniGameTimer();
+        protected CurrencyManager m_CurrencyManager;
 
         public event Action<MiniGameResult> GameFinished;
         public event Action<int> ScoreChanged;
         public event Action<float, float> TimerChanged;
-        public event Action<int> CoinCollected;
 
         [SerializeField]
         private float m_MaxTime = 60f;
@@ -39,6 +40,11 @@ namespace MiniGameWorld.Game
 
         }
 
+        public void SetCurrencyManager(CurrencyManager currencyManager)
+        {
+            m_CurrencyManager = currencyManager;
+        }
+
         protected void RaiseScoreChanged(int score)
         {
             ScoreChanged?.Invoke(score);
@@ -54,7 +60,7 @@ namespace MiniGameWorld.Game
         }
         public void AddCoin(int amount)
         {
-            CoinCollected?.Invoke(amount);
+            m_CurrencyManager.Add(amount);
         }
 
         protected void ReduceTime(float amount)
@@ -74,6 +80,7 @@ namespace MiniGameWorld.Game
             Timer.TimeChanged += OnTimerChanged;
             Timer.TimeOver += FinishGame;
         }
+
         public virtual void StartGame()
         {
             Timer.StartTimer();
@@ -89,6 +96,9 @@ namespace MiniGameWorld.Game
             Timer.TimeChanged -= OnTimerChanged;
             Timer.TimeOver -= FinishGame;
         }
+
+        public abstract void Cleanup();
+
         public abstract MiniGameResult GetResult();
     }
 }

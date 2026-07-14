@@ -23,7 +23,7 @@ namespace MiniGameWorld.Core
             m_UIPresenter.ShowView(m_UIPresenter.GameSelectView);
 
             GameRecord flowerRecord = m_RecordManager.GetRecord(GameType.Flower);
-
+            Debug.Log(flowerRecord.BestScore.ToString());
             m_UIPresenter.GameSelectView.SetGameInfo(
                 GameType.Flower,
                 flowerRecord.BestScore);

@@ -11,27 +11,30 @@ namespace MiniGameWorld.Core
     {
         private readonly UIPresenter m_UI;
         private readonly MiniGame m_MiniGame;
+        private readonly CurrencyManager m_CurrencyManager;
 
         private bool m_IsPaused;
 
-        public readonly Action<MiniGameResult> m_GameFinishedCallback;
-        public GameState(UIPresenter uIPresenter, MiniGame miniGame, Action<MiniGameResult> gameFinishedCallback)
+        private readonly Action<MiniGameResult> m_GameFinishedCallback;
+        public GameState(UIPresenter uIPresenter, MiniGame miniGame, Action<MiniGameResult> gameFinishedCallback, CurrencyManager currencyManager)
         {
             m_UI = uIPresenter;
             m_MiniGame = miniGame;
             m_GameFinishedCallback = gameFinishedCallback;
+            m_CurrencyManager = currencyManager;
         }
         public override void Enter()
         {
             base.Enter();
 
             m_IsPaused = false;
+            m_MiniGame.gameObject.SetActive(true);
 
             m_UI.ShowView(m_UI.GameView);
             m_UI.PauseRequested += OnPauseRequested;
             m_UI.ResumeRequested += OnResumeRequested;
+            m_UI.FinishRequested += OnFinishRequested;
 
-            m_MiniGame.gameObject.SetActive(true);
             m_MiniGame.Initialize();
             m_MiniGame.ScoreChanged += OnScoreChanged;
             m_MiniGame.TimerChanged += OnTimeChanged;
@@ -59,6 +62,11 @@ namespace MiniGameWorld.Core
 
             m_UI.ClosePopup(m_UI.PauseView);
             m_MiniGame.Resume();
+        }
+
+        private void OnFinishRequested()
+        {
+            m_MiniGame.FinishGame();
         }
 
         private void OnGameFinished(MiniGameResult result)
@@ -102,12 +110,13 @@ namespace MiniGameWorld.Core
 
             m_UI.PauseRequested -= OnPauseRequested;
             m_UI.ResumeRequested -= OnResumeRequested;
+            m_UI.FinishRequested -= OnFinishRequested;
 
             m_MiniGame.ScoreChanged -= OnScoreChanged;
             m_MiniGame.TimerChanged -= OnTimeChanged;
             m_MiniGame.GameFinished -= OnGameFinished;
 
-            m_MiniGame.FinishGame();
+            m_MiniGame.Cleanup();
         }
     }
 }

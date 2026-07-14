@@ -20,7 +20,7 @@ namespace MiniGameWorld.Core
         public abstract void UpdateRecord(MiniGameResult result);
         public void UpdateScore(int score)
         {
-            if (BestScore > score)
+            if (BestScore < score)
                 BestScore = score;
         }
 
@@ -34,7 +34,6 @@ namespace MiniGameWorld.Core
             saveManager.SaveInt($"{GameType}_BestScore", BestScore);
             saveManager.SaveInt($"{GameType}_PlayCount", PlayCount);
         }
-        
     }
 
     public class GameRecordManager

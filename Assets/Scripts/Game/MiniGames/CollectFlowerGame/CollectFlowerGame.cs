@@ -1,6 +1,7 @@
 using UnityEngine;
 using MiniGameWorld.FlowerGame;
 using System;
+using MiniGameWorld.Core;
 
 namespace MiniGameWorld.Game
 {
@@ -101,16 +102,22 @@ namespace MiniGameWorld.Game
         }
         public override void FinishGame()
         {
-            m_Board.StopSpawn();
-            m_LaserSystem.StopSystem();
-
-            gameObject.SetActive(false);
+            Cleanup();
 
             RaiseFinished();
         }
 
+        public override void Cleanup()
+        {
+            m_Board.StopSpawn();
+            m_LaserSystem.StopSystem();
+
+            gameObject.SetActive(false);
+        }
+
         public override MiniGameResult GetResult()
         {
+            Debug.Log("Get Result »£√‚");
             return new FlowerGameResult(
                 m_Score,
                 m_FlowerCount);

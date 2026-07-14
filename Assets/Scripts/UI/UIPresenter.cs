@@ -111,7 +111,6 @@ namespace MiniGameWorld.UI
         {
             m_ResultView.SetResult(result);
         }
-
         private void OnResumeClicked()
         {
             ResumeRequested?.Invoke();

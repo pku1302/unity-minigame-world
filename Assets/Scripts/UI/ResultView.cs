@@ -26,6 +26,8 @@ namespace MiniGameWorld.UI
         }
         public void SetResult(MiniGameResult result)
         {
+            Debug.Log(result == null);
+
             m_ScoreLabel.text = $"Score: {result.Score}";
         }
         private void RegisterCallbacks()

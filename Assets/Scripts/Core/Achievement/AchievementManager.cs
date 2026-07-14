@@ -19,29 +19,28 @@ namespace MiniGameWorld.Core
         private readonly Dictionary<AchievementType, Achievement> m_Achievements = new Dictionary<AchievementType, Achievement>();
         private readonly SaveManager m_SaveManager;
         private readonly List<AchievementChecker> m_Checkers = new();
-        public AchievementManager(CurrencyManager currencyManager, GameRecordManager gameRecordManager, SaveManager saveManager, CollectFlowerGame flowerGame)
+        public AchievementManager(CurrencyManager currencyManager, GameRecordManager gameRecordManager, SaveManager saveManager)
         {
             m_SaveManager = saveManager;
 
             m_Checkers.Add(new FlowerAchievementChecker(this, gameRecordManager));
-
-            currencyManager.CurrencyChanged += OnCurrencyChanged;
+            m_Checkers.Add(new CurrencyAchievementChecker(this, currencyManager));
 
             RegisterAchievements();
-        }
-        private void OnCurrencyChanged(int amount)
-        {
-            if (amount >= 100)
-            {
-                Unlock(AchievementType.Rich);
-            }
+            Reset();
         }
         private void RegisterAchievements()
         {
             Add(new Achievement(
                 AchievementType.FirstFlower,
                 "Ã¹ ²É",
-                "²ÉÀ» Ã³À½ Å‰µæÇß´Ù"
+                "²ÉÀ» Ã³À½ È¹µæÇß´Ù"
+                ));
+
+            Add(new Achievement(
+                AchievementType.FlowerMaster,
+                "²É ¼öÁý°¡",
+                "²É 100°³¸¦ È¹µæÇß´Ù"
                 ));
 
             Add(new Achievement(
@@ -51,13 +50,25 @@ namespace MiniGameWorld.Core
                 ));
         }
 
+        // µð¹ö±ë ¿ë
+        public void Reset()
+        {
+            foreach (Achievement achievement in m_Achievements.Values)
+            {
+                achievement.Load(false);
+            }
+
+            Save();
+        }
+
         private void Add(Achievement achievement)
         {
             m_Achievements.Add(achievement.Id, achievement);
         }
         public void Unlock(AchievementType type)
         {
-            Achievement achievement = m_Achievements[type];
+            if (!m_Achievements.TryGetValue(type, out Achievement achievement))
+                return;
 
             if (achievement.IsUnlocked)
                 return;
@@ -96,5 +107,4 @@ namespace MiniGameWorld.Core
             }
         }
     }
-
 }

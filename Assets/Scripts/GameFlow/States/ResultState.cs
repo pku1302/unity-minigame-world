@@ -26,6 +26,8 @@ namespace MiniGameWorld.Core
 
             MiniGameResult result = m_ResultGetter();
 
+            m_RecordManager.UpdateRecord(result);
+
             m_UI.ResultView.SetResult(result);
         }
 
