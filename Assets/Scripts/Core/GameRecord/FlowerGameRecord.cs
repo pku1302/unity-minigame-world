@@ -15,11 +15,8 @@ namespace MiniGameWorld.Core
 
             UpdateScore(flowerResult.Score);
 
-            if (flowerResult.Score == BestScore)
-            {
-                FlowerCount = flowerResult.FlowerCount;
-            }
         }
+
 
         public override void Load(SaveManager saveManager)
         {

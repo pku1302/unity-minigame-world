@@ -1,4 +1,5 @@
 using MiniGameWorld.Game;
+using MiniGameWorld.Core;
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -8,20 +9,22 @@ namespace MiniGameWorld.UI
     public class UIPresenter : MonoBehaviour
     {
         [SerializeField] private UIDocument m_UIDocument;
+        private ToastPresenter m_ToastPresenter;
 
         private UIView m_CurrentView;
-
         private MainMenuView m_MainMenuView;
         private GameSelectView m_GameSelectView;
         private GameView m_GameView;
         private ResultView m_ResultView;
         private PauseView m_PauseView;
+        private ToastView m_ToastView;
 
         public MainMenuView MainMenuView => m_MainMenuView;
         public GameSelectView GameSelectView => m_GameSelectView;
         public GameView GameView => m_GameView;
         public ResultView ResultView => m_ResultView;
         public PauseView PauseView => m_PauseView;
+        public ToastView ToastView => m_ToastView;
 
         public event Action StartRequested;
         public event Action SettingsRequested;
@@ -46,6 +49,9 @@ namespace MiniGameWorld.UI
             m_GameView = new GameView(root.Q<VisualElement>("test-game"));
             m_ResultView = new ResultView(root.Q<VisualElement>("game-result"));
             m_PauseView = new PauseView(root.Q<VisualElement>("pause-overlay"));
+            m_ToastView = new ToastView(root.Q<VisualElement>("toast"));
+
+            m_ToastPresenter = new ToastPresenter(this, m_ToastView);
             
             m_MainMenuView.StartClicked += OnStartClicked;
             m_MainMenuView.SettingsClicked += OnSettingsClicked;
@@ -97,10 +103,18 @@ namespace MiniGameWorld.UI
                 m_ResultView.Disable();
             }
         }
-
         public void UpdateTimer(float currentTime, float maxTime)
         {
             m_GameView.SetTimer(currentTime, maxTime);
+        }
+        public void ShowAchievement(Achievement achievement)
+        {
+            m_ToastPresenter.Show(new ToastData
+            (
+                achievement.Title,
+                achievement.Description,
+                achievement.Icon
+            ));
         }
 
         public void SetScore(int score)
@@ -165,6 +179,5 @@ namespace MiniGameWorld.UI
         {
             popup.Hide();
         }
-
     }
 }

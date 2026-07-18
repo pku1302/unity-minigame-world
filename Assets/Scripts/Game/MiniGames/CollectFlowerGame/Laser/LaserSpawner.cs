@@ -34,7 +34,6 @@ namespace MiniGameWorld.FlowerGame
         }
         private void Warning()
         {
-            Debug.Log("Warning");
         }
         public void FireLaser()
         {

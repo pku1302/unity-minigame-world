@@ -197,6 +197,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameWorld.GameFlowManager
   m_UIPresenter: {fileID: 1782765620}
   m_CollectFlowerGame: {fileID: 357940777}
+  m_AchievementDatas:
+  - {fileID: 11400000, guid: 654dce6a278a8184fba3b01fbd97bb6b, type: 2}
+  - {fileID: 11400000, guid: 2c6616ac537bb3b4f831a78dbeee6114, type: 2}
+  - {fileID: 11400000, guid: 2c40ebc0791206945ad82c0e0eda8d0d, type: 2}
 --- !u!4 &327471033
 Transform:
   m_ObjectHideFlags: 0

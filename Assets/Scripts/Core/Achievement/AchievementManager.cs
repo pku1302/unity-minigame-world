@@ -11,7 +11,6 @@ namespace MiniGameWorld.Core
         FlowerMaster,
         Rich,
     }
-
     public class AchievementManager
     {
         public event Action<Achievement> AchievementUnlocked;
@@ -19,35 +18,22 @@ namespace MiniGameWorld.Core
         private readonly Dictionary<AchievementType, Achievement> m_Achievements = new Dictionary<AchievementType, Achievement>();
         private readonly SaveManager m_SaveManager;
         private readonly List<AchievementChecker> m_Checkers = new();
-        public AchievementManager(CurrencyManager currencyManager, GameRecordManager gameRecordManager, SaveManager saveManager)
+        public AchievementManager(AchievementData[] achievementDatas, CurrencyManager currencyManager, GameRecordManager gameRecordManager, SaveManager saveManager)
         {
             m_SaveManager = saveManager;
-
             m_Checkers.Add(new FlowerAchievementChecker(this, gameRecordManager));
             m_Checkers.Add(new CurrencyAchievementChecker(this, currencyManager));
 
-            RegisterAchievements();
+            RegisterAchievements(achievementDatas);
             Reset();
         }
-        private void RegisterAchievements()
+        private void RegisterAchievements(AchievementData[] datas)
         {
-            Add(new Achievement(
-                AchievementType.FirstFlower,
-                "Ã¹ ²É",
-                "²ÉÀ» Ã³À½ È¹µæÇß´Ù"
-                ));
-
-            Add(new Achievement(
-                AchievementType.FlowerMaster,
-                "²É ¼öÁý°¡",
-                "²É 100°³¸¦ È¹µæÇß´Ù"
-                ));
-
-            Add(new Achievement(
-                AchievementType.Rich,
-                "ºÎÀÚ",
-                "ÄÚÀÎ 100°³¸¦ ¸ð¾Ò´Ù"
-                ));
+            foreach (AchievementData data in datas)
+            {
+                Debug.Log($"Register : { data.Id }");
+                Add(new Achievement(data));
+            }
         }
 
         // µð¹ö±ë ¿ë
@@ -68,10 +54,17 @@ namespace MiniGameWorld.Core
         public void Unlock(AchievementType type)
         {
             if (!m_Achievements.TryGetValue(type, out Achievement achievement))
+            {
+                Debug.Log($"Achievement not found : {type}");
                 return;
+            }
 
             if (achievement.IsUnlocked)
+            {
+                Debug.Log("Unlock");
                 return;
+
+            }
 
             achievement.Unlock();
 

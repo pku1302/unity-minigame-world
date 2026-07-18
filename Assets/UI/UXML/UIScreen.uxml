@@ -4,9 +4,11 @@
     <ui:Template name="MainMenu" src="project://database/Assets/UI/UXML/MainMenu.uxml?fileID=9197481963319205126&amp;guid=de337e39fedb0d740b4835b48db488d5&amp;type=3#MainMenu"/>
     <ui:Template name="PauseView" src="project://database/Assets/UI/UXML/PauseView.uxml?fileID=9197481963319205126&amp;guid=70350f12ef497a5468914b740980d168&amp;type=3#PauseView"/>
     <ui:Template name="TestGame" src="project://database/Assets/UI/UXML/TestGame.uxml?fileID=9197481963319205126&amp;guid=f25f0961f72075749bb1f95254c05f22&amp;type=3#TestGame"/>
+    <ui:Template name="ToastView" src="project://database/Assets/UI/UXML/ToastView.uxml?fileID=9197481963319205126&amp;guid=234d4205c4c21a643b191d9573b6ace2&amp;type=3#ToastView"/>
     <ui:Instance template="MainMenu" name="main-menu" enabled="true"/>
     <ui:Instance template="GameSelect" name="game-select" enabled="true"/>
     <ui:Instance template="TestGame" name="test-game"/>
     <ui:Instance template="GameResultScreen" name="game-result"/>
     <ui:Instance template="PauseView" name="pause-overlay"/>
+    <ui:Instance template="ToastView" name="toast"/>
 </ui:UXML>

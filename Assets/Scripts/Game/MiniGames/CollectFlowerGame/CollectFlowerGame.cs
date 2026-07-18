@@ -117,7 +117,6 @@ namespace MiniGameWorld.Game
 
         public override MiniGameResult GetResult()
         {
-            Debug.Log("Get Result »£√‚");
             return new FlowerGameResult(
                 m_Score,
                 m_FlowerCount);

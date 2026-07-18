@@ -10,8 +10,13 @@ namespace MiniGameWorld
     {
         [SerializeField]
         UIPresenter m_UIPresenter;
+
         [SerializeField]
         CollectFlowerGame m_CollectFlowerGame;
+        
+        [SerializeField]
+        private AchievementData[] m_AchievementDatas;
+        private AchievementManager m_AchievementManager;
 
         StateMachine m_StateMachine = new StateMachine();
         SaveManager m_SaveManager;
@@ -44,10 +49,14 @@ namespace MiniGameWorld
             m_SaveManager = new SaveManager();
             m_GameRecordManager = new GameRecordManager(m_SaveManager);
             m_CurrencyManager = new CurrencyManager(m_SaveManager);
+            m_AchievementManager = new AchievementManager(m_AchievementDatas, m_CurrencyManager, m_GameRecordManager, m_SaveManager);
+            m_AchievementManager.AchievementUnlocked += OnAchievementUnlocked;
+
             m_CollectFlowerGame.SetCurrencyManager(m_CurrencyManager);
 
             m_GameRecordManager.Load();
             m_CurrencyManager.Load();
+            m_AchievementManager.Load();
 
             SetStates();
             AddLinks();
@@ -70,6 +79,11 @@ namespace MiniGameWorld
             m_IsStartRequested = false;
             m_IsMainMenuRequested = false;
             m_IsFinishRequested = false;
+        }
+        private void OnAchievementUnlocked(Achievement achievement)
+        {
+            Debug.Log("업적 해금");
+            m_UIPresenter.ShowAchievement(achievement);
         }
 
         private void OnFinishRequested()

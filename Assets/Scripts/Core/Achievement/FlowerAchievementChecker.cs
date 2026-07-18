@@ -17,7 +17,7 @@ namespace MiniGameWorld.Core
             if (record is not FlowerGameRecord flowerRecord)
                 return;
 
-            if (flowerRecord.FlowerCount >= 1)
+            if (flowerRecord.FlowerCount >= 0)
             {
                 AchievementManager.Unlock(AchievementType.FirstFlower);
             }

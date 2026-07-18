@@ -8,7 +8,6 @@ namespace MiniGameWorld.FlowerGame
         public override void Collect(ICollectContext miniGame)
         {
             miniGame.NotifyFlowerCollected();
-
             miniGame.AddTime(3f);
             miniGame.AddScore(5);
         }

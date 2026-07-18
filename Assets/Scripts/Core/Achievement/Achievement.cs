@@ -1,19 +1,20 @@
+using System;
 using UnityEngine;
 
 namespace MiniGameWorld.Core
 {
-    public class Achievement
+    public class Achievement 
     {
-        public AchievementType Id { get; }
-        public string Title { get; }
-        public string Description { get; }  
-        public bool IsUnlocked { get; private set; }
+        public AchievementData Data { get; }
+        public AchievementType Id => Data.Id;
+        public string Title => Data.Title;
+        public string Description => Data.Description;
+        public Sprite Icon => Data.Icon;
 
-        public Achievement(AchievementType id, string title, string description)
+        public bool IsUnlocked { get; private set; }
+        public Achievement(AchievementData data)
         {
-            Id = id;
-            Title = title;
-            Description = description;
+            Data = data ?? throw new ArgumentNullException(nameof(data));
         }
 
         public void Unlock()
@@ -27,7 +28,5 @@ namespace MiniGameWorld.Core
         {
             IsUnlocked = unlocked;
         }
-
     }
-
 }
