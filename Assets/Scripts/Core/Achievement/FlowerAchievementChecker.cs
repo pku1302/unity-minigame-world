@@ -23,7 +23,7 @@ namespace MiniGameWorld.Core
                 AchievementManager.Unlock(AchievementType.FirstFlower);
             }
 
-            if (flowerResult.FlowerCount >= 100)
+            if (flowerResult.FlowerCount >= 10)
             {
                 AchievementManager.Unlock(AchievementType.FlowerMaster);
             }

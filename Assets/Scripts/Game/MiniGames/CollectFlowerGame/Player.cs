@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace MiniGameWorld.FlowerGame
@@ -6,6 +7,13 @@ namespace MiniGameWorld.FlowerGame
     [RequireComponent(typeof(PlayerInput), typeof(PlayerMovement))]
     public class Player : MonoBehaviour
     {
+        [SerializeField]
+        private float m_InvincibleTime = 1.5f;
+        [SerializeField]
+        private SpriteRenderer m_Renderer;
+
+        private bool m_IsInvincible;
+
         PlayerInput m_PlayerInput;
         PlayerMovement m_PlayerMovement;
 
@@ -15,6 +23,7 @@ namespace MiniGameWorld.FlowerGame
 
         void Awake()
         {
+            m_Renderer = GetComponent<SpriteRenderer>();
             m_PlayerInput = GetComponent<PlayerInput>();
             m_PlayerMovement = GetComponent<PlayerMovement>();
             m_PlayerMovement.Moved += OnMoved;
@@ -27,7 +36,33 @@ namespace MiniGameWorld.FlowerGame
 
         public void RaiseHit()
         {
+            if (m_IsInvincible)
+                return;
+
             Hit?.Invoke();
+
+            if (!gameObject.activeInHierarchy)
+                return;
+
+            StartCoroutine(InvincibleRoutine());
+        }
+        private IEnumerator InvincibleRoutine()
+        {
+            m_IsInvincible = true;
+
+            float elapsed = 0f;
+
+            while (elapsed < m_InvincibleTime)
+            {
+                m_Renderer.enabled = !m_Renderer.enabled;
+
+                yield return new WaitForSeconds(0.1f);
+
+                elapsed += 0.1f;
+            }
+
+            m_Renderer.enabled = true;
+            m_IsInvincible = false;
         }
 
         public void Initialize(Board board, Vector2Int startPosition)
