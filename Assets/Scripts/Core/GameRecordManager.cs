@@ -41,7 +41,7 @@ namespace MiniGameWorld.Core
         private readonly Dictionary<GameType, GameRecord> m_Records = new();
         private readonly SaveManager m_SaveManager;
 
-        public event Action<GameType, GameRecord> RecordUpdated;
+        public event Action<GameType, MiniGameResult> ResultUpdated;
 
         public GameRecordManager(SaveManager saveManager)
         {
@@ -79,13 +79,17 @@ namespace MiniGameWorld.Core
         {
             return m_Records[gameType];
         }
+
+        // 게임이 종료될 때 호출됩니다.
+        // 게임의 최고 기록 갱신 여부를 판단
+        // 게임 업적 달성 여부를 판단
         public void UpdateRecord(MiniGameResult result)
         {
             GameRecord record = m_Records[result.GameType];
 
             record.UpdateRecord(result);
 
-            RecordUpdated?.Invoke(result.GameType, record);
+            ResultUpdated?.Invoke(result.GameType, result);
 
             Save(result.GameType);
         }

@@ -9,20 +9,21 @@ namespace MiniGameWorld.Core
             AchievementManager achievementManager,
             GameRecordManager recordManager) : base(achievementManager)
         {
-            recordManager.RecordUpdated += OnRecordUpdated;
+            recordManager.ResultUpdated += OnResultUpdated;
         }
 
-        private void OnRecordUpdated(GameType gameType, GameRecord record)
+        private void OnResultUpdated(GameType gameType, MiniGameResult result)
         {
-            if (record is not FlowerGameRecord flowerRecord)
+            if (result is not FlowerGameResult flowerResult)
                 return;
+            Debug.Log($"Flower Count : {flowerResult.FlowerCount}");
 
-            if (flowerRecord.FlowerCount >= 0)
+            if (flowerResult.FlowerCount >= 1)
             {
                 AchievementManager.Unlock(AchievementType.FirstFlower);
             }
 
-            if (flowerRecord.FlowerCount >= 100)
+            if (flowerResult.FlowerCount >= 100)
             {
                 AchievementManager.Unlock(AchievementType.FlowerMaster);
             }

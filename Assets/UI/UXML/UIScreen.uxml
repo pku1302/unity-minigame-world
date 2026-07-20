@@ -10,5 +10,5 @@
     <ui:Instance template="TestGame" name="test-game"/>
     <ui:Instance template="GameResultScreen" name="game-result"/>
     <ui:Instance template="PauseView" name="pause-overlay"/>
-    <ui:Instance template="ToastView" name="toast"/>
+    <ui:Instance template="ToastView" name="toast" style="position: absolute; align-self: center; top: 32px;"/>
 </ui:UXML>

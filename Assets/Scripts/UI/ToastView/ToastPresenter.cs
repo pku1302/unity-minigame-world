@@ -12,7 +12,6 @@ namespace MiniGameWorld.UI
         private readonly Queue<ToastData> m_Queue = new();
         private Coroutine m_DisplayRoutine;
         private MonoBehaviour m_Runner;
-
         public ToastView ToastView => m_View;
 
         public ToastPresenter(MonoBehaviour runner, ToastView toastView)
@@ -51,9 +50,14 @@ namespace MiniGameWorld.UI
                 ToastData toast = m_Queue.Dequeue();
 
                 m_View.SetData(toast);
+
                 m_View.Show();
 
+                yield return m_View.PlayShowAnimation();
+
                 yield return new WaitForSeconds(m_DisplayTime);
+
+                yield return m_View.PlayHideAnimation();
 
                 m_View.Hide();
             }

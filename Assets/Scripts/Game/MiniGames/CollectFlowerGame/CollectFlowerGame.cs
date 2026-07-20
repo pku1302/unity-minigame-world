@@ -40,6 +40,11 @@ namespace MiniGameWorld.Game
         {
             FlowerCollected?.Invoke();
         }
+        public override void AddScore(int amount)
+        {
+            base.AddScore(amount);
+            m_FlowerCount++;
+        }
 
         public override void Pause()
         {
@@ -52,7 +57,6 @@ namespace MiniGameWorld.Game
             Time.timeScale = 1f;
             m_Player.enabled = true;
         }
-
         public override void ResetGame()
         {
             base.ResetGame();

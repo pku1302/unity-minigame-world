@@ -82,7 +82,6 @@ namespace MiniGameWorld
         }
         private void OnAchievementUnlocked(Achievement achievement)
         {
-            Debug.Log("업적 해금");
             m_UIPresenter.ShowAchievement(achievement);
         }
 

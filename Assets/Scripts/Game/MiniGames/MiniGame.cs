@@ -53,7 +53,7 @@ namespace MiniGameWorld.Game
         {
             Timer.AddTime(amount);
         }
-        public void AddScore(int amount)
+        public virtual void AddScore(int amount)
         {
             m_Score += amount;
             RaiseScoreChanged(m_Score);
