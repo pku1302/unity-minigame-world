@@ -25,8 +25,10 @@ namespace MiniGameWorld.Game
         public int Score => m_Score;
         public int FlowerCount => m_FlowerCount;
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             m_Player.Moved += OnPlayerMoved;
             m_Player.Hit += OnPlayerHit;
             m_Board.FlowerSpawned += OnFlowerSpawned;
@@ -45,13 +47,11 @@ namespace MiniGameWorld.Game
             base.AddScore(amount);
             m_FlowerCount++;
         }
-
         public override void Pause()
         {
             Time.timeScale = 0f;
             m_Player.enabled = false;
         }
-
         public override void Resume()
         {
             Time.timeScale = 1f;
@@ -89,6 +89,7 @@ namespace MiniGameWorld.Game
         private void OnPlayerHit()
         {
             ReduceTime(10f);
+            m_ComboSystem.ResetCombo();
         }
         private void OnFlowerSpawned(Vector2Int position)
         {
@@ -102,6 +103,7 @@ namespace MiniGameWorld.Game
             collectible.Collect(this);
 
             tile.RemoveCollectible();
+            m_ComboSystem.AddCombo();
             Destroy(collectible.gameObject);
         }
         public override void FinishGame()

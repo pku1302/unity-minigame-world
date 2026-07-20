@@ -1,4 +1,5 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Template name="ComboView" src="project://database/Assets/UI/UXML/ComboView.uxml?fileID=9197481963319205126&amp;guid=45a2587e74c6bc7448859912b20c4dc1&amp;type=3#ComboView"/>
     <ui:Template name="GameResultScreen" src="project://database/Assets/UI/UXML/GameResultScreen.uxml?fileID=9197481963319205126&amp;guid=c4a45f4b93dd2cf4083c81975b1c20b4&amp;type=3#GameResultScreen"/>
     <ui:Template name="GameSelect" src="project://database/Assets/UI/UXML/GameSelect.uxml?fileID=9197481963319205126&amp;guid=de02cda0b947cb74ea155f6148156c27&amp;type=3#GameSelect"/>
     <ui:Template name="MainMenu" src="project://database/Assets/UI/UXML/MainMenu.uxml?fileID=9197481963319205126&amp;guid=de337e39fedb0d740b4835b48db488d5&amp;type=3#MainMenu"/>
@@ -11,4 +12,5 @@
     <ui:Instance template="GameResultScreen" name="game-result"/>
     <ui:Instance template="PauseView" name="pause-overlay"/>
     <ui:Instance template="ToastView" name="toast" style="position: absolute; align-self: center; top: 32px;"/>
+    <ui:Instance template="ComboView" name="combo"/>
 </ui:UXML>

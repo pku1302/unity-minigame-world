@@ -166,6 +166,64 @@ MonoBehaviour:
   m_LaserSpawnerPrefab: {fileID: 9100342792412525490, guid: 0047dc9fce5350946b28dd03f0f5b83b, type: 3}
   m_Board: {fileID: 1153371138}
   m_Interval: 3
+--- !u!1 &301200729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 301200731}
+  - component: {fileID: 301200732}
+  - component: {fileID: 301200730}
+  m_Layer: 0
+  m_Name: ComboSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &301200730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301200729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f9b6cd3f361aca41a55e1c48dd4be6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ComboView
+  m_Document: {fileID: 1782765618}
+--- !u!4 &301200731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301200729}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 357940776}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &301200732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301200729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6379bfa452fab8b40b7101f8518cf17f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MiniGameWorld.Game.ComboSystem
 --- !u!1 &327471031
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,6 +307,7 @@ Transform:
   - {fileID: 1153371137}
   - {fileID: 1846969269}
   - {fileID: 28740149}
+  - {fileID: 301200731}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &357940777
@@ -264,6 +323,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameWorld.Game.CollectFlowerGame
   m_MaxTime: 60
+  m_ComboSystem: {fileID: 301200732}
+  m_ComboView: {fileID: 301200730}
   m_Board: {fileID: 1153371138}
   m_Player: {fileID: 1846969271}
   m_LaserSystem: {fileID: 28740150}
@@ -450,6 +511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2956aa8e002d1f147992c72b093e6667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniGameWorld.CollectFlowerGame.Player
+  m_InvincibleTime: 1.5
+  m_Renderer: {fileID: 1846969273}
 --- !u!114 &1846969272
 MonoBehaviour:
   m_ObjectHideFlags: 0

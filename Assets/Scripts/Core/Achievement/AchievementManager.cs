@@ -31,7 +31,6 @@ namespace MiniGameWorld.Core
         {
             foreach (AchievementData data in datas)
             {
-                Debug.Log($"Register : { data.Id }");
                 Add(new Achievement(data));
             }
         }

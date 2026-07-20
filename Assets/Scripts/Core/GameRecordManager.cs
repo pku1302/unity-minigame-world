@@ -8,12 +8,10 @@ namespace MiniGameWorld.Core
     public abstract class GameRecord
     {
         protected GameType GameType { get; }
-
         protected GameRecord(GameType gameType)
         {
             GameType = gameType;
         }
-
         public int BestScore { get; protected set; }
         public int PlayCount { get; protected set; }
 

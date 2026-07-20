@@ -8,8 +8,6 @@ namespace MiniGameWorld.Game
     {
         Flower,
     }
-
-
     public abstract class MiniGame : MonoBehaviour
     {
         protected int m_Score;
@@ -23,6 +21,15 @@ namespace MiniGameWorld.Game
 
         [SerializeField]
         private float m_MaxTime = 60f;
+
+        [SerializeField] protected ComboSystem m_ComboSystem;
+        [SerializeField] protected ComboView m_ComboView;
+
+        private ComboPresenter m_ComboPresenter;
+        protected virtual void Awake()
+        {
+            m_ComboPresenter = new ComboPresenter(m_ComboSystem, m_ComboView);
+        }
 
         public float MaxTime => m_MaxTime;
 
@@ -95,6 +102,7 @@ namespace MiniGameWorld.Game
         {
             Timer.TimeChanged -= OnTimerChanged;
             Timer.TimeOver -= FinishGame;
+            m_ComboPresenter.Dispose();
         }
 
         public abstract void Cleanup();
